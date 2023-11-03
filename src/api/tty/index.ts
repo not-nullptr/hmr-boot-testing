@@ -23,7 +23,9 @@ export class TTYService {
 	}
 	static async waitKey(key?: string) {
 		if (Kernel.getBooted() === "booted")
-			throw new Error("you shouldn't call ");
+			throw new Error(
+				`you shouldn't call whilst ${Kernel.getBooted()}, dummy !!! >:`
+			);
 		return new Promise<string>((res) => {
 			function touchStart(e: TouchEvent) {
 				e.preventDefault();
