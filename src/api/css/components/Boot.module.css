@@ -1,0 +1,27 @@
+.tty {
+	background-color: black;
+	color: rgb(138, 224, 183);
+	font-family: Inter;
+	font-size: min(max(16px, 4vw), 22px);
+	width: 100vw;
+	height: 100vh;
+	box-sizing: border-box;
+	padding: 8px;
+	position: relative;
+	text-shadow: 0px 0px 16px rgba(138, 224, 183, 0.25),
+		0px 0px 12px rgba(138, 224, 183, 0.25),
+		0px 0px 8px rgba(138, 224, 183, 0.25),
+		0px 0px 4px rgba(138, 224, 183, 1);
+}
+
+.tty > div::after {
+	content: ".";
+	visibility: hidden;
+}
+
+.logo {
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	width: 160px;
+}
