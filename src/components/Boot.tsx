@@ -1,9 +1,10 @@
 import { TTYService } from "@win99/tty";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "@win99/css/components/Boot.module.css";
 import logo from "@assets/branding/logo.svg";
 
 function TTY() {
+	const ttyRef = useRef<HTMLDivElement>(null);
 	const [buf, setBuf] = useState<string[]>([]);
 	useEffect(() => {
 		const id = TTYService.addEventListener((d) => {
@@ -12,11 +13,15 @@ function TTY() {
 		return () => TTYService.removeEventListener(id);
 	}, []);
 	return (
-		<div>
-			<div className={styles.tty}>
-				{buf.map((b, i) => (
-					<div key={i}>{b}</div>
-				))}
+		<div className={styles.container}>
+			<div className={styles.ttyBg} />
+			<div className={styles.tty} ref={ttyRef}>
+				{buf
+					.slice()
+					.reverse()
+					.map((b, i) => (
+						<div key={i}>{b}</div>
+					))}
 			</div>
 			<img src={logo} alt="logo" className={styles.logo} />
 			<div className="crt-effect" />

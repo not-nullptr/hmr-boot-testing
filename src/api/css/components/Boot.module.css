@@ -5,6 +5,7 @@
 	font-size: min(max(16px, 4vw), 22px);
 	width: 100vw;
 	height: 100vh;
+	overflow-y: auto;
 	box-sizing: border-box;
 	padding: 8px;
 	position: relative;
@@ -12,6 +13,12 @@
 		0px 0px 12px rgba(138, 224, 183, 0.25),
 		0px 0px 8px rgba(138, 224, 183, 0.25),
 		0px 0px 4px rgba(138, 224, 183, 1);
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.tty > div:last-child {
+	margin-bottom: 4px;
 }
 
 .tty > div::after {
@@ -20,8 +27,17 @@
 }
 
 .logo {
-	position: absolute;
+	position: fixed;
 	bottom: 16px;
 	right: 16px;
 	width: 160px;
+}
+
+.ttyBg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: black;
 }

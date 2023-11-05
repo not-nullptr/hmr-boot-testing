@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/node": "^20.8.10",
+    "buffer": "^6.0.3",
+    "dotenv": "^16.3.1",
+    "file-type": "^18.6.0",
     "geist": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

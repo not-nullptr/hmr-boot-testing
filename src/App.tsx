@@ -19,7 +19,6 @@ function App() {
 				width: "100vw",
 				height: "100vh",
 				color: "white",
-				fontSize: "2rem",
 				fontFamily: "Inter",
 			}}
 		>

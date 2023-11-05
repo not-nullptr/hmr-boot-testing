@@ -17,8 +17,24 @@ export class TTYService {
 	private static callListeners() {
 		this.listeners.forEach((l) => l.cb(this.buffer));
 	}
-	static printf(text: string) {
-		this.buffer.push(text);
+	static printf(...args: any[]) {
+		this.buffer.push(
+			args
+				.map((arg) =>
+					arg
+						? typeof arg !== "object" &&
+						  typeof arg !== "function" &&
+						  typeof arg !== "symbol"
+							? arg
+							: arg.toString === Object.prototype.toString
+							? arg.toString() === "[object Object]"
+								? JSON.stringify(arg)
+								: arg.toString()
+							: JSON.stringify(arg)
+						: ""
+				)
+				.join(" ")
+		);
 		this.callListeners();
 	}
 	static async waitKey(key?: string) {

@@ -21,6 +21,9 @@ const Prefetcher = new KernelModule("Prefetcher", "boot", async () => {
 			...Object.values(import.meta.glob("/src/assets/**/*.mp4")).map(
 				(p) => p()
 			),
+			...Object.values(import.meta.glob("/src/assets/**/*.mp3")).map(
+				(p) => p()
+			),
 		])) as any[]
 	).map((v) => v.default);
 	TTYService.printf("[prefetcher] finished!");

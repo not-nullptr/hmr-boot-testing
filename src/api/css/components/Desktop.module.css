@@ -1,5 +1,24 @@
+@keyframes bottomSlide {
+	0% {
+		bottom: calc(0px - (100vh + 40px));
+	}
+	100% {
+		bottom: calc(0px - (100vh - 40px) - 20px);
+	}
+}
+
+.desktop * {
+	font-family: "Segoe UI", sans-serif;
+	font-weight: 300;
+}
+
+.desktop div,
+.desktop span {
+	font-size: 13pt;
+}
+
 .desktop {
-	background: url(@assets/desktop/welcometothecomputer.png), rgb(0, 128, 255);
+	background: url(@assets/desktop/bg-frutiger.png), rgb(183, 255, 0);
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -9,4 +28,252 @@
 	top: 0;
 	left: 0;
 	overflow: hidden;
+}
+
+.taskbar {
+	animation: bottomSlide 0.5s cubic-bezier(0.51, 1.35, 0, 0.95) forwards;
+	position: fixed;
+	/* center */
+	left: 50%;
+	transform: translateX(-50%);
+	width: calc(100% - 96px);
+	height: calc(58px + (100vh - 40px - 58px) + 20px);
+	background-color: color-mix(in srgb, var(--accent-color), transparent 50%);
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	border-radius: 6px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	box-shadow: var(--aero-outline);
+	display: flex;
+	align-items: center;
+	z-index: 5;
+	transition: 0.5s cubic-bezier(0.51, 1.35, 0, 0.95) transform;
+}
+
+.startButton {
+	background: linear-gradient(
+		180deg,
+		rgba(164, 223, 45, 1) 0%,
+		rgba(210, 250, 146, 1) 50%,
+		rgba(158, 205, 83, 1) 50%,
+		rgba(192, 238, 117, 1) 100%
+	);
+	width: 40px;
+	height: 40px;
+	--webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.25), var(--aero-outline);
+	transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) filter;
+}
+
+.startButton > img {
+	width: 22px;
+	height: 22px;
+	filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.75));
+	pointer-events: none;
+	transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) filter;
+}
+
+.startButton:hover {
+	filter: drop-shadow(0px 0px 8px rgb(229, 255, 112));
+}
+
+.startButton:active {
+	filter: drop-shadow(0px 0px 12px rgb(243, 255, 192));
+}
+
+.startButton:hover > img {
+	filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+}
+
+.launchpad {
+	position: fixed;
+	width: calc(100vw - 80px - 1px);
+	height: calc(100vh - 80px - 48px - 12px);
+	top: 41px;
+	left: 41px;
+	transition: 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+	transition-property: box-shadow, background-color, backdrop-filter,
+		-webkit-backdrop-filter, transform;
+	border-radius: 6px;
+}
+
+.behindTaskbar {
+	z-index: 4;
+}
+
+.launchpadContent {
+	width: 100%;
+	height: 100%;
+	/* transition: 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) opacity; */
+	pointer-events: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: rgb(220, 238, 185);
+}
+
+.launchpadContent * {
+	pointer-events: auto;
+}
+
+.taskbarContent {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 6px 6px 0px 0px;
+	height: 54px;
+	width: 100%;
+	padding: 0px 8px;
+	display: flex;
+	align-items: center;
+}
+
+.belowTaskbar > * {
+	width: fit-content;
+}
+
+.belowTaskbar {
+	position: absolute;
+	height: calc(100% - 54px);
+	width: 100%;
+	bottom: 0;
+	box-sizing: border-box;
+	padding: 16px;
+	padding-top: 0px;
+}
+
+.belowTaskbar > h1 {
+	color: rgb(245, 255, 192);
+	text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+	margin-top: 8px;
+}
+
+.quadrantHover {
+	width: 1px;
+	height: 1px;
+	position: absolute;
+	transition: 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) box-shadow;
+}
+
+.startButton:hover > .quadrantHover {
+	box-shadow: 5px -5px 9px 5px rgb(255, 0, 0),
+		-5px -5px 9px 5px rgb(0, 255, 0), -5px 5px 9px 5px rgb(255, 225, 0),
+		5px 5px 9px 5px rgb(0, 128, 255);
+}
+
+.appGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 189px);
+	grid-auto-rows: 189px;
+	gap: 10px; /* Optional gap between elements */
+	pointer-events: none;
+	width: calc(100% + 8px);
+	overflow-y: auto;
+	height: calc(100% - 108px);
+	padding: 4px;
+	box-sizing: border-box;
+}
+
+.appGridItem {
+	pointer-events: auto;
+	position: relative;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	border-radius: 6px;
+	flex-direction: column;
+	box-shadow: var(--aero-outline);
+	cursor: pointer;
+}
+
+.appGridItemBg,
+.appGridItemHover,
+.appGridItemActive {
+	border-radius: 6px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: 1s cubic-bezier(0.165, 0.84, 0.44, 1) opacity;
+	width: 100%;
+	height: 100%;
+}
+
+.appGridItemBg {
+	background: linear-gradient(
+		180deg,
+		rgba(164, 223, 45, 0.25) 0%,
+		rgba(210, 250, 146, 0.5) 50%,
+		rgba(158, 205, 83, 0.25) 50%,
+		rgba(192, 238, 117, 0.5) 100%
+	);
+	opacity: 1;
+}
+
+.appGridItemHover {
+	background: linear-gradient(
+		180deg,
+		rgba(179, 231, 76, 0.25) 0%,
+		rgba(210, 250, 146, 0.799) 50%,
+		rgba(100, 134, 45, 0.25) 50%,
+		rgba(192, 238, 117, 0.648) 100%
+	);
+	opacity: 0;
+}
+
+.appGridItemActive {
+	background: linear-gradient(
+		180deg,
+		rgba(158, 216, 42, 0.3) 0%,
+		rgba(178, 255, 54, 0.5) 50%,
+		rgba(161, 189, 117, 0.5) 50%,
+		rgba(163, 235, 46, 0.3) 100%
+	);
+	opacity: 0;
+}
+
+.appGridItem:hover {
+	background: transparent;
+}
+
+.appGridItem:hover > .appGridItemHover {
+	opacity: 1;
+}
+
+.appGridItem:hover > .appGridItemBg {
+	opacity: 0;
+}
+
+.appGridItem:active > .appGridItemActive {
+	opacity: 1;
+}
+
+.appGridItem:active > .appGridItemHover {
+	opacity: 0;
+}
+
+.appGridItem:active > .appGridItemBg {
+	opacity: 0;
+}
+
+.appGridItem > * {
+	pointer-events: none;
+	z-index: 1;
+}
+
+.appGridItem > img {
+	width: 128px;
+	margin-top: 16px;
+}
+
+.appGridItem > span {
+	margin-top: 8px;
+	color: black;
+	text-shadow: 0px 0px 4px rgb(245, 255, 192), 0px 0px 8px rgb(245, 255, 192),
+		0px 0px 12px rgb(245, 255, 192), 0px 0px 16px rgb(245, 255, 192);
 }
