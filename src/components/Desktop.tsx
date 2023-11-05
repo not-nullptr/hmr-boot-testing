@@ -133,7 +133,7 @@ function Desktop() {
 				diffY = e.touches[0].clientY - initialPos.y;
 			}
 			const distance = Math.abs(diffX);
-			const scalingFactor = 0.01;
+			const scalingFactor = 0.0075;
 			const scaledDiffX = diffX / (1 + scalingFactor * distance);
 			const taskbar = taskbarRef.current;
 			if (!taskbar) return;
