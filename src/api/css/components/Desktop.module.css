@@ -3,7 +3,7 @@
 		bottom: calc(0px - (100vh + 40px));
 	}
 	100% {
-		bottom: calc(0px - (100vh - 40px) - 20px);
+		bottom: calc(0px - (100vh - 80px));
 	}
 }
 
@@ -37,13 +37,11 @@
 	left: 50%;
 	transform: translateX(-50%);
 	width: calc(100% - 96px);
-	height: calc(58px + (100vh - 40px - 58px) + 20px);
+	height: calc(58px + (100vh - 40px - 58px) - 40px);
 	background-color: color-mix(in srgb, var(--accent-color), transparent 50%);
 	-webkit-backdrop-filter: blur(8px);
 	backdrop-filter: blur(8px);
 	border-radius: 6px;
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
 	box-shadow: var(--aero-outline);
 	display: flex;
 	align-items: center;
@@ -140,7 +138,7 @@
 
 .belowTaskbar {
 	position: absolute;
-	height: calc(100% - 54px);
+	height: calc(100% - 48px);
 	width: 100%;
 	bottom: 0;
 	box-sizing: border-box;
@@ -175,9 +173,16 @@
 	pointer-events: none;
 	width: calc(100% + 8px);
 	overflow-y: auto;
-	height: calc(100% - 108px);
-	padding: 4px;
+	height: calc(100% - 64px);
+	padding: 20px 4px;
 	box-sizing: border-box;
+	mask-image: linear-gradient(
+		to bottom,
+		transparent,
+		black 20px,
+		black calc(100% - 20px),
+		transparent
+	);
 }
 
 .appGridItem {
