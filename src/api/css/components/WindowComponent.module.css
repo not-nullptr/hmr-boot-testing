@@ -1,0 +1,156 @@
+@keyframes open {
+	0% {
+		transform: perspective(800px) rotateX(-25deg) scale(0.9);
+		opacity: 0.1;
+	}
+	100% {
+		transform: perspective(800px) rotateX(0deg) scale(1);
+	}
+}
+
+.windows {
+	z-index: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.window {
+	transform-origin: top center;
+	animation: 0.25s open cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+	color: black;
+	width: 800px;
+	height: 600px;
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	background-color: color-mix(
+		in srgb,
+		var(--accent-color),
+		rgba(255, 255, 255, 0.15) 90%
+	);
+	box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75), var(--aero-outline);
+	border-radius: 6px;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	padding: 4px;
+	position: absolute;
+	transition: 0.25s cubic-bezier(0.19, 1, 0.22, 1) box-shadow;
+}
+
+.content,
+.titlebar {
+	transition: 0.25s cubic-bezier(0.19, 1, 0.22, 1) opacity;
+}
+
+.window.unfocused {
+	box-shadow: 0px 0px 24px 0px rgba(0, 0, 0, 0.25), var(--aero-outline);
+}
+
+.window.unfocused::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.1);
+	border-radius: 6px;
+	pointer-events: none;
+}
+
+.window.unfocused > .content,
+.window.unfocused > .titlebar {
+	opacity: 0.5;
+}
+
+.window * {
+	font-size: 9pt !important;
+}
+
+.titlebar {
+	flex: 0 1 36px;
+	width: calc(100% - 16px);
+	display: flex;
+	align-items: center;
+	padding: 0px 8px;
+	border-radius: 4px 4px 0px 0px;
+	box-shadow: var(--aero-outline);
+	margin-bottom: 1px;
+	background-color: rgba(233, 255, 207, 0.5);
+}
+
+.buttons {
+	position: absolute;
+	right: 10px;
+	height: 16px;
+	display: flex;
+	align-items: center;
+	padding: 4px;
+	box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5), var(--aero-outline);
+	border-radius: 2px;
+	flex-direction: row-reverse;
+}
+
+.button:last-child {
+	margin-left: 0px;
+}
+
+.button {
+	cursor: pointer;
+	overflow: hidden;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: radial-gradient(
+			75% 75% at 50% 25%,
+			#ffffffff 10%,
+			#ffffff00 50%
+		),
+		radial-gradient(100% 100% at 50% 110%, #86d8ffff 26%, #ffffff00 63%),
+		linear-gradient(180deg, #117cc6ff 0%, #52aef3ff 99%);
+	box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5), var(--aero-outline);
+	margin-left: 6px;
+	transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1) box-shadow;
+}
+
+.button:hover {
+	box-shadow: 0px 0px 16px 2px rgba(101, 170, 248, 0.75), var(--aero-outline);
+}
+
+.button:active {
+	box-shadow: 0px 0px 6px 4px rgb(101, 170, 248), var(--aero-outline);
+}
+
+.closeButton {
+	background: radial-gradient(
+			75% 75% at 50% 25%,
+			#ffffffff 10%,
+			#ffffff00 50%
+		),
+		radial-gradient(100% 100% at 50% 110%, #ff8686ff 40%, #ffffff00 60%),
+		linear-gradient(180deg, #c61111ff 0%, #f35252ff 99%);
+}
+
+.closeButton:hover {
+	box-shadow: 0px 0px 16px 2px rgba(255, 62, 62, 1), var(--aero-outline);
+}
+
+.closeButton:active {
+	box-shadow: 0px 0px 8px 2px rgb(245, 29, 29), var(--aero-outline);
+}
+
+.title {
+	text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.5),
+		0px 0px 4px rgba(255, 255, 255, 0.5),
+		0px 0px 6px rgba(255, 255, 255, 0.5),
+		0px 0px 8px rgba(255, 255, 255, 0.5),
+		0px 0px 10px rgba(255, 255, 255, 0.5), 0px 0px 12px rgba(255, 255, 255);
+}
+
+.content {
+	flex: 1 1 auto;
+	border-radius: 0px 0px 4px 4px;
+	box-shadow: var(--aero-outline);
+	background-color: white;
+}

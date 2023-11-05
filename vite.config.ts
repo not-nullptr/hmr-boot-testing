@@ -14,6 +14,14 @@ export default defineConfig({
 				find: "@assets",
 				replacement: path.resolve(__dirname, "src/assets"),
 			},
+			{
+				find: "@components",
+				replacement: path.resolve(__dirname, "src/components"),
+			},
+			{
+				find: "@windows",
+				replacement: path.resolve(__dirname, "src/windows"),
+			},
 		],
 	},
 	base: process.env.VITE_BASE_URL || "/",

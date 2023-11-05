@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import woosh1 from "@assets/desktop/audio/open-taskbar.mp3";
 import woosh2 from "@assets/desktop/audio/shut-taskbar.mp3";
 import openProgram from "@assets/desktop/audio/open-program.mp3";
+import { Program, programs } from "@win99/program";
+import { WindowProvider } from "./WindowManager";
+import tap from "@assets/desktop/audio/start-panel-tap.mp3";
 
 function hasParentWithClass(el: HTMLElement, className: string): boolean {
 	if (el.classList.contains(className)) return true;
@@ -22,6 +25,14 @@ function AppGridItem({
 	icon: string;
 	onClick?: () => void;
 }) {
+	const [loadedIcon, setLoadedIconIcon] = useState<string>();
+	useEffect(() => {
+		(async () => {
+			const loaded = (await import(`@assets/icons/${icon}/6.png`))
+				.default;
+			setLoadedIconIcon(loaded);
+		})();
+	}, []);
 	return (
 		<div
 			onClick={(e) => {
@@ -65,38 +76,117 @@ function AppGridItem({
 				);
 				setTimeout(() => {
 					desktop?.removeChild(clone);
+				}, 500);
+				setTimeout(() => {
+					onClick?.();
 				}, 250);
 				const audio = new Audio(openProgram);
 				audio.play();
-				onClick?.();
 			}}
 			className={styles.appGridItem}
 		>
 			<div className={styles.appGridItemBg} />
 			<div className={styles.appGridItemHover} />
 			<div className={styles.appGridItemActive} />
-			<img src={icon} />
+			<img src={loadedIcon} />
 			<span>{title}</span>
 		</div>
 	);
 }
 
+function DesktopIcon({ program }: { program: Program }) {
+	const [icon, setIcon] = useState<string>();
+	useEffect(() => {
+		(async () => {
+			const loaded = (await import(`@assets/icons/${program.icon}/4.png`))
+				.default;
+			setIcon(loaded);
+		})();
+	}, []);
+	return (
+		<div
+			className={styles.desktopIcon}
+			onDoubleClick={(e) => {
+				const target = e.target as HTMLDivElement;
+				const bounds = target.getBoundingClientRect();
+				const clone = target.cloneNode(true) as HTMLDivElement;
+				const desktop = document.getElementsByClassName(
+					styles.desktop
+				)[0];
+				clone.style.position = "fixed";
+				clone.style.top = `${bounds.top}px`;
+				clone.style.left = `${bounds.left - 6}px`;
+				clone.style.width = `${bounds.width}px`;
+				clone.style.height = `${bounds.height}px`;
+				clone.style.zIndex = "99";
+				clone.style.pointerEvents = "none";
+				desktop?.appendChild(clone);
+				clone.animate(
+					[
+						{
+							transform: "scale(1)",
+							opacity: 1,
+						},
+						{
+							opacity: 0.1,
+						},
+						{
+							opacity: 0.05,
+						},
+						{
+							transform: "scale(3)",
+							opacity: 0,
+						},
+					],
+					{
+						fill: "forwards",
+						duration: 500,
+						easing: "cubic-bezier(0.19, 1, 0.22, 1)",
+					}
+				);
+				setTimeout(() => {
+					desktop?.removeChild(clone);
+				}, 500);
+				setTimeout(() => {
+					program.spawn();
+				}, 250);
+				const audio = new Audio(openProgram);
+				audio.play();
+			}}
+		>
+			<img src={icon} />
+			<div>{program.name}</div>
+		</div>
+	);
+}
+
 function Desktop() {
+	function random(max: number, prev: number): number {
+		const rand = Math.round(Math.random() * max + 1);
+		if (rand === prev) return random(max, prev);
+		return rand;
+	}
 	const taskbarRef = useRef<HTMLDivElement>(null);
 	const [launchpadOpen, setLaunchpadOpen] = useState<boolean | null>(null);
-	function onClick() {
-		setLaunchpadOpen(false);
-	}
 	function playWoosh(type: 1 | 2) {
 		const audio = new Audio(type === 1 ? woosh1 : woosh2);
 		audio.play();
 	}
 	useEffect(() => {
+		let previousKnock = 0;
 		if (!taskbarRef.current) return;
 		const taskbar = taskbarRef.current;
 		let initialPos = { x: 0, y: 0 };
 		let initialTransformY = 0;
 		function mouseDown(e: MouseEvent | TouchEvent) {
+			const rand = random(5, previousKnock);
+			previousKnock = rand;
+			import(`@assets/desktop/audio/tap-${rand}.mp3`).then((tap) => {
+				console.log(rand);
+				const audio = new Audio(tap.default);
+				audio.volume = 0.5;
+				audio.play();
+			});
 			const target = e.target as HTMLDivElement;
 			if (
 				!target.classList.contains(styles.taskbar) &&
@@ -205,11 +295,19 @@ function Desktop() {
 				playWoosh(2);
 			}
 		};
-		document.addEventListener("click", listener);
-		return () => document.removeEventListener("click", listener);
+		document.addEventListener("mousedown", listener);
+		return () => document.removeEventListener("mousedown", listener);
 	}, [launchpadOpen]);
 	return (
 		<div className={styles.desktop}>
+			<div className={styles.iconsContainer}>
+				<div className={styles.icons}>
+					{programs.map((p, i) => (
+						<DesktopIcon key={i} program={p} />
+					))}
+				</div>
+			</div>
+			<WindowProvider />
 			<div
 				className={styles.taskbar}
 				ref={taskbarRef}
@@ -234,12 +332,15 @@ function Desktop() {
 				<div className={styles.belowTaskbar}>
 					<h1>Start Board</h1>
 					<div className={styles.appGrid} id="app-grid">
-						{[...Array(60)].map((_, i) => (
+						{programs.map((p, i) => (
 							<AppGridItem
-								onClick={onClick}
+								onClick={() => {
+									p.spawn();
+									setLaunchpadOpen(false);
+								}}
 								key={i}
-								title="File Explorer"
-								icon={logo}
+								title={p.name}
+								icon={p.icon}
 							/>
 						))}
 					</div>

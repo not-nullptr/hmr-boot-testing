@@ -33,6 +33,7 @@
 .taskbar {
 	animation: bottomSlide 0.5s cubic-bezier(0.51, 1.35, 0, 0.95) forwards;
 	position: fixed;
+	min-height: 54px;
 	/* center */
 	left: 50%;
 	transform: translateX(-50%);
@@ -281,4 +282,60 @@
 	color: black;
 	text-shadow: 0px 0px 4px rgb(245, 255, 192), 0px 0px 8px rgb(245, 255, 192),
 		0px 0px 12px rgb(245, 255, 192), 0px 0px 16px rgb(245, 255, 192);
+}
+
+.iconsContainer {
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 24px;
+	padding-bottom: 79px;
+}
+
+.icons {
+	width: 100%;
+	height: 100%;
+}
+
+.desktopIcon {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: fit-content;
+	padding: 6px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.desktopIcon:hover {
+	background: linear-gradient(
+		180deg,
+		rgba(164, 223, 45, 0.25) 0%,
+		rgba(210, 250, 146, 0.5) 50%,
+		rgba(158, 205, 83, 0.25) 50%,
+		rgba(192, 238, 117, 0.5) 100%
+	);
+	box-shadow: var(--aero-outline);
+}
+
+.desktopIcon:active {
+	background: linear-gradient(
+		180deg,
+		rgba(154, 196, 70, 0.25) 0%,
+		rgba(202, 231, 155, 0.5) 50%,
+		rgba(107, 146, 46, 0.25) 50%,
+		rgba(169, 205, 112, 0.5) 100%
+	);
+	box-shadow: var(--aero-outline);
+}
+
+.desktopIcon > div {
+	font-size: 12px !important;
+	text-shadow: 1px 1px 3px rgb(0, 0, 0), 1px 1px 4px rgb(0, 0, 0),
+		1px 1px 5px rgb(0, 0, 0);
+	margin-top: 4px;
+}
+
+.desktopIcon > * {
+	pointer-events: none;
 }

@@ -21,7 +21,9 @@
 		"noFallthroughCasesInSwitch": true,
 		"paths": {
 			"@assets/*": ["./src/assets/*"],
-			"@win99/*": ["./src/api/*"]
+			"@win99/*": ["./src/api/*"],
+			"@components/*": ["./src/components/*"],
+			"@windows/*": ["./src/windows/*"],
 		}
 	},
 	"include": ["src"],
